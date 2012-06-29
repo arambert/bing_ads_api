@@ -33,7 +33,9 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 # GENERATE API SERVICES
 require 'ads_common/build/savon_generator'
 require 'adcenter_api/api_config'
+require 'ads_commons/api_config_decorator'
 desc 'Generate the Adcenter API stubs.'
+
 task :generate do
   logger = Logger.new(STDOUT)
   logger.level = Logger::INFO

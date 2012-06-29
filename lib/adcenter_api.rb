@@ -41,16 +41,15 @@ module AdcenterApi
     #
     def soap_header_handler(auth_handler, version, namespace)
       auth_method = @config.read('authentication.method', :CLIENTLOGIN)
-      handler = case auth_method
-        when :CLIENTLOGIN
-          auth_ns = api_config.client_login_config(:AUTH_NAMESPACE_PREAMBLE) +
-              version.to_s
-          AdcenterApi::ClientLoginHeaderHandler.new(
-              @credential_handler, auth_handler, namespace, auth_ns, version)
-        when :OAUTH, :OAUTH2
-          AdsCommon::SavonHeaders::OAuthHeaderHandler.new(
-              @credential_handler, auth_handler, namespace, version)
-      end
+      handler =
+          case auth_method
+          when :CLIENTLOGIN
+            #auth_ns = api_config.client_login_config(:AUTH_NAMESPACE_PREAMBLE) + version.to_s
+            #AdcenterApi::ClientLoginHeaderHandler.new(@credential_handler, auth_handler, namespace, auth_ns, version)
+            AdcenterApi::ClientLoginHeaderHandler.new(@credential_handler, auth_handler, namespace, version)
+          when :OAUTH, :OAUTH2
+            AdsCommon::SavonHeaders::OAuthHeaderHandler.new(@credential_handler, auth_handler, namespace, version)
+          end
       return handler
     end
 

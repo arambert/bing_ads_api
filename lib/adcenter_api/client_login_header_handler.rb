@@ -13,10 +13,10 @@ module AdcenterApi
     #  - auth_namespace: namespace to use for auth headers
     #  - version: services version
     #
-    def initialize(credential_handler, auth_handler, namespace, auth_namespace,
-                   version)
+    #def initialize(credential_handler, auth_handler, namespace, auth_namespace, version)
+    def initialize(credential_handler, auth_handler, namespace, version)
       super(credential_handler, auth_handler, namespace, version)
-      @auth_namespace = auth_namespace
+      #@auth_namespace = auth_namespace
     end
 
     # Enriches soap object with API-specific headers like namespaces, login
@@ -35,7 +35,7 @@ module AdcenterApi
       soap.header[:attributes!] ||= {}
       header_name = prepend_namespace(get_header_element_name())
       soap.header[:attributes!][header_name] ||= {}
-      soap.header[:attributes!][header_name]['xmlns'] = @auth_namespace
+      #soap.header[:attributes!][header_name]['xmlns'] = @auth_namespace
       return soap
     end
 
@@ -53,7 +53,7 @@ module AdcenterApi
       return get_header_element_name().eql?(str) ? super(str) : str
     end
 
-    # Generates AdWords API specific request header with ClientLogin data.
+    # Generates Adcenter API specific request header with ClientLogin data.
     def generate_request_header()
       request_header = super()
       credentials = @credential_handler.credentials

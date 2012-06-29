@@ -47,22 +47,24 @@ module AdcenterApi
       ]
     }
 
-    ## Configure the different environments, with the base URL for each one
-    #@@environment_config = {
-    #  :PRODUCTION => {
-    #    :oauth_scope => 'https://adwords.google.com/api/adwords/',
-    #    :v7 => 'https://adwords.google.com/api/adwords/',
-    #    :v8 => 'https://adwords.google.com/api/adwords/'
-    #  },
-    #  :SANDBOX => {
-    #    :oauth_scope => 'https://adwords-sandbox.google.com/api/adwords/',
-    #    :v7 => 'https://adwords-sandbox.google.com/api/adwords/',
-    #    :v8 => 'https://adwords-sandbox.google.com/api/adwords/'
-    #  }
-    #}
+    # Configure the different environments, with the base URL for each one
+    @@environment_config = {
+      :PRODUCTION => {
+        :oauth_scope => '',
+        :v7 => '',
+        :v8 => ''
+      },
+      :SANDBOX => {
+        :oauth_scope => '',
+        :v7 => '',
+        :v8 => ''
+      }
+    }
 
     # Configure the subdirectories for each version / service pair.
     # A missing pair means that only the base URL is used.
+    @@subdir_config = {}
+
     @@address_config = {
       :v8 => {
         :AdIntelligenceService     => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/CampaignManagement/AdIntelligenceService.svc?wsdl", :SANDBOX => ""},
@@ -86,54 +88,15 @@ module AdcenterApi
     }
 
     # Auth constants for ClientLogin method.
+    #TODO: remove client_login_config
     @@client_login_config = {
-      :AUTH_SERVER => 'https://www.google.com',
-      :AUTH_NAMESPACE_PREAMBLE =>
-          'https://adwords.google.com/api/adwords/cm/',
-      :LOGIN_SERVICE_NAME => 'adwords'
+      :AUTH_SERVER => 'https://www.microsoft.com',
+      :AUTH_NAMESPACE_PREAMBLE => 'https://adcenter.microsoft.com/api/adcenter/',
+      :LOGIN_SERVICE_NAME => 'adcenter'
     }
 
     public
 
-    ####### Overriden for Adcenter #########
-    # Get the endpoint for a service on a given environment and API version.
-    #
-    # Args:
-    # - environment: the service environment to be used
-    # - version: the API version
-    # - service: the name of the API service
-    #
-    # Returns:
-    # The endpoint URL
-    #
-    def endpoint(environment, version, service)
-      if !address_config().nil?
-        address_config()[version][service][environment].to_s
-      else
-        ""
-      end
-    end
-    # Generates an array of WSDL URLs based on defined Services and version
-    # supplied. This method is used by generators to determine what service
-    # wrappers to generate.
-    #
-    # Args:
-    #   - version: the API version.
-    #
-    # Returns
-    #   hash of pairs Service => WSDL URL
-    #
-    def get_wsdls(version)
-      res = {}
-      services(version).each do |service|
-        if (!address_config().nil?)
-          path = address_config()[version][service][default_environment()].to_s
-        end
-        res[service.to_s] = path || ""
-      end
-      return res
-    end
-    ########################################
     # Getters for constants and module variables.
     def self.default_version
       DEFAULT_VERSION
@@ -155,13 +118,17 @@ module AdcenterApi
       @@service_config
     end
 
-    #def self.environment_config(environment, key)
-    #  return @@environment_config.include?(environment) ?
-    #      @@environment_config[environment][key] : nil
-    #end
-    #
+    def self.environment_config(environment, key)
+      return @@environment_config.include?(environment) ?
+          @@environment_config[environment][key] : nil
+    end
+
     def self.address_config
       @@address_config
+    end
+
+    def self.subdir_config
+      @@subdir_config
     end
 
     def self.client_login_config(key)

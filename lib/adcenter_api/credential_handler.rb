@@ -93,8 +93,7 @@ module AdcenterApi
           if (!sandbox_token)
             raise AdsCommon::Errors::EnvironmentMismatchError,
                 'Attempting to connect to the sandbox with malformatted ' +
-                'credentials. Please check http://code.google.com/apis/' +
-                'adcenter/docs/sandbox.html#request-headers for details.'
+                'credentials. Please check http://msdn.microsoft.com/en-US/library/aa983013 for details.'
           end
       end
       return nil
