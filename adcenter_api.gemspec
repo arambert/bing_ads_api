@@ -24,7 +24,7 @@ require 'adcenter_api/version'
 
 Gem::Specification.new do |s|
   s.name = 'adcenter'
-  s.version = AdcenterApi::VERSION
+  s.version = AdcenterApi::ApiConfig::CLIENT_LIB_VERSION
   s.summary = 'Ruby wrapper for Microsoft Adcenter API'
   s.description = 'Ruby wrapper for Microsoft Adcenter API'
   s.homepage = 'https://github.com/weboglobin/adcenter_api'
@@ -35,5 +35,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency('savon', '~> 1.0.0')
   s.add_dependency('httpi', '~> 1.0.0')
+  s.add_dependency('google-ads-common')
+  s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 2.8'
 end
