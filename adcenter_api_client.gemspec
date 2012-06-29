@@ -20,7 +20,7 @@
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
-require 'adcenter/version'
+require 'adcenter_api_client/version'
 
 Gem::Specification.new do |s|
   s.name = 'adcenter'
