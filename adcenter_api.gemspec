@@ -20,14 +20,14 @@
 lib = File.expand_path('../lib/', __FILE__)
 $:.unshift lib unless $:.include?(lib)
 
-require 'adcenter_api_client/version'
+require 'adcenter_api/version'
 
 Gem::Specification.new do |s|
   s.name = 'adcenter'
-  s.version = AdcenterApiClient::VERSION
+  s.version = AdcenterApi::VERSION
   s.summary = 'Ruby wrapper for Microsoft Adcenter API'
   s.description = 'Ruby wrapper for Microsoft Adcenter API'
-  s.homepage = 'https://github.com/weboglobin/adcenter_api_client'
+  s.homepage = 'https://github.com/weboglobin/adcenter_api'
   s.authors = ['Adrien Rambert']
   s.email = ['arambert@optimeez.com']
   s.require_path = 'lib'
