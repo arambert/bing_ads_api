@@ -61,7 +61,7 @@ module AdcenterApi
       credentials = @credential_handler.credentials
       #puts "--------------- generate_request_header >> credentials >>\n#{credentials}"
       #request_header['authToken'] = @auth_handler.get_token(credentials)
-      credentials.each {|k,v| puts("prepend_namespace(k.to_s.camelize)=#{prepend_namespace(k.to_s.camelize)}");request_header[prepend_namespace(k.to_s.camelize)] = v}
+      credentials.each {|k,v| request_header[prepend_namespace(k.to_s.camelize)] = v}
       request_header.select!{|k,_| ['ApplicationToken', 'CustomerAccountId', 'CustomerId', 'DeveloperToken', 'UserName', 'Password'].map{|h| prepend_namespace(h)}.include?(k.to_s)}
       #puts "--------------- generate_request_header >> request_header final >>\n#{request_header}"
       return request_header
