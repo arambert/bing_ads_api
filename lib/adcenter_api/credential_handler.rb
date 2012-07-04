@@ -21,6 +21,7 @@ module AdcenterApi
     # generation.
     def credentials(credentials_override = nil)
       result = super(credentials_override)
+      #puts "credentials result=\n#{result}"
       validate_headers_for_server(result)
 
       extra_headers = {
@@ -33,6 +34,7 @@ module AdcenterApi
       extra_headers['validateOnly'] = 'true' if @validate_only
       extra_headers['partialFailure'] = 'true' if @partial_failure
       result[:extra_headers] = extra_headers
+      #puts "credentials result2=\n#{result}"
       return result
     end
 
@@ -81,21 +83,21 @@ module AdcenterApi
       end
 
       token = credentials[:developer_token]
-      sandbox_token = (token =~ /.+@.+\+\+[a-zA-Z]{3}/)
-      environment = @config.read('service.environment')
-      case environment
-        when :PRODUCTION
-          if sandbox_token
-            raise AdsCommon::Errors::EnvironmentMismatchError,
-                'Attempting to connect to production with sandbox credentials.'
-          end
-        when :SANDBOX
-          if (!sandbox_token)
-            raise AdsCommon::Errors::EnvironmentMismatchError,
-                'Attempting to connect to the sandbox with malformatted ' +
-                'credentials. Please check http://msdn.microsoft.com/en-US/library/aa983013 for details.'
-          end
-      end
+      #sandbox_token = (token =~ /[a-zA-Z0-9]{12,}/)
+      #environment = @config.read('service.environment')
+      #case environment
+      #  when :PRODUCTION
+      #    if sandbox_token
+      #      raise AdsCommon::Errors::EnvironmentMismatchError,
+      #          'Attempting to connect to production with sandbox credentials.'
+      #    end
+      #  when :SANDBOX
+      #    if (!sandbox_token)
+      #      raise AdsCommon::Errors::EnvironmentMismatchError,
+      #          'Attempting to connect to the sandbox with malformatted ' +
+      #          'credentials. Please check http://msdn.microsoft.com/en-US/library/aa983013 for details.'
+      #    end
+      #end
       return nil
     end
   end

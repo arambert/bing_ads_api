@@ -50,14 +50,20 @@ module AdcenterApi
     #  - String with a namespace
     #
     def prepend_namespace(str)
-      return get_header_element_name().eql?(str) ? super(str) : str
+      #return get_header_element_name().eql?(str) ? super(str) : str
+      super(str)
     end
 
     # Generates Adcenter API specific request header with ClientLogin data.
     def generate_request_header()
       request_header = super()
+      #puts "--------------- generate_request_header >> request_header >>\n#{request_header}"
       credentials = @credential_handler.credentials
-      request_header['authToken'] = @auth_handler.get_token(credentials)
+      #puts "--------------- generate_request_header >> credentials >>\n#{credentials}"
+      #request_header['authToken'] = @auth_handler.get_token(credentials)
+      credentials.each {|k,v| puts("prepend_namespace(k.to_s.camelize)=#{prepend_namespace(k.to_s.camelize)}");request_header[prepend_namespace(k.to_s.camelize)] = v}
+      request_header.select!{|k,_| ['ApplicationToken', 'CustomerAccountId', 'CustomerId', 'DeveloperToken', 'UserName', 'Password'].map{|h| prepend_namespace(h)}.include?(k.to_s)}
+      #puts "--------------- generate_request_header >> request_header final >>\n#{request_header}"
       return request_header
     end
   end

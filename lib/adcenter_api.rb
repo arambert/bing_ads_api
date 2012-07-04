@@ -1,13 +1,18 @@
 require 'savon'
 require 'httpi'
-
+require 'active_support/inflector'
 require 'ads_common/api'
 #require 'ads_common/savon_headers/oauth_header_handler'
+
 require 'adcenter_api/api_config'
 require 'adcenter_api/client_login_header_handler'
 require 'adcenter_api/credential_handler'
 require 'adcenter_api/errors'
 require 'adcenter_api/report_utils'
+require 'ads_common/api_config_decorator'
+require 'ads_common/auth/client_login_handler_decorator'
+require 'ads_common/savon_service_decorator'
+require 'ads_common/savon_headers_base_header_handler_decorator'
 
 module AdcenterApi
 
