@@ -7,6 +7,7 @@ A simple ruby wrapper for the AdCenter API based on the gem "google-ads-common".
 
 Usage
 -------------
+
   # install in your gem file
   gem 'adcenter_api', :git => 'git://github.com/weboglobin/adcenter_api.git'
 
