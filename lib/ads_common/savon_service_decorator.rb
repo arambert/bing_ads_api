@@ -51,4 +51,38 @@ AdsCommon::SavonService.class_eval do
     return client
   end
 
+  # Finds an exception object for a given response.
+  def exception_for_soap_fault(response)
+    begin
+      fault = response[:fault]
+      if fault[:detail] and fault[:detail][:api_exception_fault]
+        exception_fault = fault[:detail][:api_exception_fault]
+        exception_name = exception_fault[:application_exception_type]
+        exception_class = get_module().const_get(exception_name)
+        return exception_class.new(exception_fault)
+      # Specific to AdCenter
+      elsif fault[:detail] and fault[:detail][:api_fault]
+        operation_error = fault[:detail][:api_fault][:operation_errors][:operation_error]
+        if exception_name = AdcenterApi::Errors::CODES[operation_error[:code]]
+          exception_class = AdcenterApi::Errors.const_get(exception_name)
+        else
+          raise Exception.new("code #{operation_error[:code]}")
+        end
+        return exception_class.new("#{operation_error[:message]} (#{operation_error[:details]})")
+      elsif fault[:faultstring]
+        fault_message = fault[:faultstring]
+        return AdsCommon::Errors::ApiException.new(
+            "Unknown exception with error: %s" % fault_message)
+      else
+        raise ArgumentError.new(fault.to_s)
+      end
+    rescue Exception => e
+      operation_error ||= response[:fault][:detail][:api_fault][:operation_errors][:operation_error] rescue {}
+      return AdsCommon::Errors::ApiException.new(
+          "Failed to resolve exception (%s), details: %s, SOAP fault: %s" %
+          [e.message, "#{operation_error[:message]} (#{operation_error[:details]})", response.soap_fault])
+    end
+  end
+
+
 end
