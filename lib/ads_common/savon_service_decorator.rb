@@ -24,17 +24,27 @@ AdsCommon::SavonService.class_eval do
     original_action_name = get_service_registry.get_method_signature(action)[:original_name].to_s.camelize
     original_action_name = action if original_action_name.nil?
     args = args.first if args.is_a?(Array)
-    args.dup.each do |k,v|
-      next if k.to_s=~ /^#{ns}:/
-      args[prepend_namespace(k.to_s.camelize, ns)] = v
-      args.delete(k)
-    end
+    additional_headers = args.delete(:headers) unless args.nil?
+    prepend_namespace_to_hash(args, ns)
+    prepend_namespace_to_hash(additional_headers, ns)
     response = @client.request(ns, original_input_name) do |soap|
+      @client.http.headers["SOAPAction"] = original_action_name
       soap.body = args
       set_headers(soap, extra_namespaces)
-      @client.http.headers["SOAPAction"] = original_action_name
+      soap.header.merge!(additional_headers) if additional_headers.is_a?(Hash)
     end
     return response
+  end
+  def prepend_namespace_to_hash h, namespace
+    if h.is_a?(Hash)
+      h.dup.each do |k,v|
+        h.delete(k)
+        h[k.to_s=~ /^#{namespace}:/ ? k : prepend_namespace(k.to_s.camelize, namespace)] = prepend_namespace_to_hash(v, namespace)
+      end
+    elsif h.is_a?(Array) # e.g: h = {:campaigns => {:campaign => [{:name => 'foo'}, {:name => 'foofoo'}]}}
+      h.map!{|e| prepend_namespace_to_hash(e, namespace)}
+    end
+    return h
   end
 
   # Creates and sets up Savon client.
@@ -63,6 +73,17 @@ AdsCommon::SavonService.class_eval do
       # Specific to AdCenter
       elsif fault[:detail] and fault[:detail][:api_fault]
         operation_error = fault[:detail][:api_fault][:operation_errors][:operation_error]
+        operation_error = operation_error.first if operation_error.is_a?(Array) # if we get several errors, we only raise the first one
+        if exception_name = AdcenterApi::Errors::CODES[operation_error[:code]]
+          exception_class = AdcenterApi::Errors.const_get(exception_name)
+        else
+          raise Exception.new("code #{operation_error[:code]}")
+        end
+        return exception_class.new("#{operation_error[:message]} (#{operation_error[:details]})")
+      # Specific to AdCenter (batches)
+      elsif fault[:detail] and fault[:detail][:api_fault_detail]
+        operation_error = fault[:detail][:api_fault_detail][:batch_errors][:batch_error]
+        operation_error = operation_error.first if operation_error.is_a?(Array) # if we get several errors, we only raise the first one
         if exception_name = AdcenterApi::Errors::CODES[operation_error[:code]]
           exception_class = AdcenterApi::Errors.const_get(exception_name)
         else
