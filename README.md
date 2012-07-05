@@ -8,11 +8,11 @@ A simple ruby wrapper for the AdCenter API based on the gem "google-ads-common".
 Usage
 -------------
 
-  # install in your gem file
-  gem 'adcenter_api', :git => 'git://github.com/weboglobin/adcenter_api.git'
+    # install in your gem file
+    gem 'adcenter_api', :git => 'git://github.com/weboglobin/adcenter_api.git'
 
-  # initialize the client
-  client = AdcenterApi::Api.new(
+    # initialize the client
+    client = AdcenterApi::Api.new(
             {
               :authentication => {
                 :method => 'ClientLogin',
@@ -26,17 +26,20 @@ Usage
               :library => {:log_level => 'DEBUG'}
             })
 
-  # select the service and the API version (:v7 or :v8)
-  administration_service = client.service(:AdministrationService, :v7)
-  # send your request
-  result = administration_service.get_assigned_quota()
+    # select the service and the API version (:v7 or :v8)
+    administration_service = client.service(:AdministrationService, :v7)
 
-  # select another service
-  campaign_service = client.service(:CampaignManagementService, :v7)
-  # send another request
-  result = campaign_service.get_campaigns_by_account_id({:account_id => 00000})
-  # create a campaign
-  result2 = campaign_service.add_campaigns({:account_id => 00000,
+    # send your request
+    result = administration_service.get_assigned_quota()
+
+    # select another service
+    campaign_service = client.service(:CampaignManagementService, :v7)
+
+    # send another request
+    result = campaign_service.get_campaigns_by_account_id({:account_id => 00000})
+
+    # create a campaign
+    result2 = campaign_service.add_campaigns({:account_id => 00000,
                                             :campaigns => {:campaign => [{:budget_type => "DailyBudgetWithMaximumMonthlySpend",
                                                                           :conversion_tracking_enabled => false,
                                                                           :daily_budget => 5,
