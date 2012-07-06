@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    adcenter (0.0.1)
+    adcenter_api (0.0.1)
       activesupport (>= 3.1.0)
       google-ads-common
       httpi (~> 1.0.0)
@@ -67,6 +67,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  adcenter!
+  adcenter_api!
   rake
   rspec (~> 2.8)

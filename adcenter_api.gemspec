@@ -23,7 +23,7 @@ $:.unshift lib unless $:.include?(lib)
 require 'adcenter_api/version'
 
 Gem::Specification.new do |s|
-  s.name = 'adcenter'
+  s.name = 'adcenter_api'
   s.version = AdcenterApi::ApiConfig::CLIENT_LIB_VERSION
   s.summary = 'Ruby wrapper for Microsoft Adcenter API'
   s.description = 'Ruby wrapper for Microsoft Adcenter API'
@@ -31,7 +31,7 @@ Gem::Specification.new do |s|
   s.authors = ['Adrien Rambert']
   s.email = ['arambert@optimeez.com']
   s.require_path = 'lib'
-  s.files = Dir.glob('{lib,test}/**/*') + %w(Rakefile README)
+  s.files = Dir.glob('{lib,test}/**/*') + %w(rakefile.rb README.md)
 
   s.add_dependency('savon', '~> 1.0.0')
   s.add_dependency('httpi', '~> 1.0.0')
