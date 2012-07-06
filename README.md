@@ -9,7 +9,7 @@ Usage
 -------------
 
     # install in your gem file
-    gem 'adcenter_api', :git => 'git://github.com/weboglobin/adcenter_api.git'
+    gem 'adcenter_api', :git => 'https://github.com/weboglobin/adcenter_api.git'
 
     # initialize the client
     client = AdcenterApi::Api.new(
