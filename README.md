@@ -54,3 +54,4 @@ Usage
 About the gem
 -------------
 The tests still have to be written.
+Any help is welcome !
