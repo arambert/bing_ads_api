@@ -90,6 +90,16 @@ AdsCommon::SavonService.class_eval do
           raise Exception.new("code #{operation_error[:code]}")
         end
         return exception_class.new("#{operation_error[:message]} (#{operation_error[:details]})")
+      # Specific to AdCenter (ad api)
+      elsif fault[:detail] and fault[:detail][:ad_api_fault_detail]
+        operation_error = fault[:detail][:ad_api_fault_detail][:errors][:ad_api_error]
+        operation_error = operation_error.first if operation_error.is_a?(Array) # if we get several errors, we only raise the first one
+        if exception_name = AdcenterApi::Errors::CODES[operation_error[:code]]
+          exception_class = AdcenterApi::Errors.const_get(exception_name)
+        else
+          raise Exception.new("code #{operation_error[:code]}")
+        end
+        return exception_class.new("#{operation_error[:message]} (#{operation_error[:details]})")
       elsif fault[:faultstring]
         fault_message = fault[:faultstring]
         return AdsCommon::Errors::ApiException.new(
