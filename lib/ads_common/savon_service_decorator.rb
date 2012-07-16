@@ -27,6 +27,7 @@ AdsCommon::SavonService.class_eval do
     additional_headers = args.delete(:headers) unless args.nil?
     prepend_namespace_to_hash(args, ns)
     prepend_namespace_to_hash(additional_headers, ns)
+    puts "**************************************args = #{args}"
     response = @client.request(ns, original_input_name) do |soap|
       @client.http.headers["SOAPAction"] = original_action_name
       soap.body = args
@@ -39,7 +40,11 @@ AdsCommon::SavonService.class_eval do
     if h.is_a?(Hash)
       h.dup.each do |k,v|
         h.delete(k)
-        h[k.to_s=~ /^#{namespace}:/ ? k : prepend_namespace(k.to_s.camelize, namespace)] = prepend_namespace_to_hash(v, namespace)
+        if k.to_s=~/!$/ || k.to_s=~/:/ #on ne transforme pas les noms finissant par ! ou contenant : (exemple: attributes! ou xsi:type)
+          h[k] = prepend_namespace_to_hash(v, namespace)
+        else
+          h[k.to_s=~ /^#{namespace}:/ ? k : prepend_namespace(k.to_s.camelize, namespace)] = prepend_namespace_to_hash(v, namespace)
+        end
       end
     elsif h.is_a?(Array) # e.g: h = {:campaigns => {:campaign => [{:name => 'foo'}, {:name => 'foofoo'}]}}
       h.map!{|e| prepend_namespace_to_hash(e, namespace)}
