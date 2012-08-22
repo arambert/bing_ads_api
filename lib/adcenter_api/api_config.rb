@@ -51,11 +51,13 @@ module AdcenterApi
     @@environment_config = {
       :PRODUCTION => {
         :oauth_scope => '',
+        :header_ns => 'https://adcenter.microsoft.com/api/adcenter/',
         :v7 => '',
         :v8 => ''
       },
       :SANDBOX => {
         :oauth_scope => '',
+        :header_ns => 'https://adcenter.microsoft.com/api/adcenter/',
         :v7 => '',
         :v8 => ''
       }
@@ -91,7 +93,6 @@ module AdcenterApi
     #TODO: remove client_login_config
     @@client_login_config = {
       :AUTH_SERVER => 'https://www.microsoft.com',
-      :AUTH_NAMESPACE_PREAMBLE => 'https://adcenter.microsoft.com/api/adcenter/',
       :LOGIN_SERVICE_NAME => 'adcenter'
     }
 

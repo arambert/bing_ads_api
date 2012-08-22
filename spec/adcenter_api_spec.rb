@@ -8,8 +8,10 @@ end
 
 describe AdcenterApi do
   before(:all) do #once (and could be modified by the following tests)
-    $default_customer_id = '0000'
-    $default_customer_account_id = '0000'
+    $default_customer_id = '8000081'
+    $default_customer_account_id = '138537'
+    #$default_customer_id = '18007506'
+    #$default_customer_account_id = '1671592'
     Savon.configure do |config|
       config.pretty_print_xml = true
     end
@@ -17,16 +19,41 @@ describe AdcenterApi do
   it "authenticates" do
     lambda{
       $adcenter = AdcenterApi::Api.new({
-        :authentication => {
-          :method => 'ClientLogin',
-          :developer_token => 'DEVELOPER_TOKEN',
-          :password => 'PASSWORD',
-          :user_name => 'USERNAME',
-          :customer_id => 'customer_id',
-          :customer_account_id => 'customer_account_id'
-        },
-        :service => { :environment => 'PRODUCTION'},
-        :library => {:log_level => 'DEBUG'}
+      #  :authentication => {
+      #    :method => 'ClientLogin',
+      #    :developer_token => 'DEVELOPER_TOKEN',
+      #    :password => 'PASSWORD',
+      #    :user_name => 'USERNAME',
+      #    :customer_id => 'customer_id',
+      #    :customer_account_id => 'customer_account_id'
+      #  },
+      #  :service => { :environment => 'PRODUCTION'},
+      #  :library => {:log_level => 'DEBUG'}
+      #
+
+         :authentication => {
+             :method => 'ClientLogin',
+             :developer_token => 'K297AX8VPS23',
+             :password => 'Bing1234',
+             :user_name => 'SB_arambert',
+             :customer_id => $default_customer_id,
+             :customer_account_id => $default_customer_account_id
+         },
+         :service => {:environment => 'SANDBOX'},
+         :library => {:log_level => 'DEBUG'}
+
+       #
+       #  :authentication => {
+       #      :method => 'ClientLogin',
+       #      :developer_token => 'Z7NGPTV50W',
+       #      :password => '6Mc_r-s98',
+       #      :user_name => 'optimeez',
+       #      :customer_id => $default_customer_id,
+       #     :customer_account_id => $default_customer_account_id
+       #  },
+       #  :service => {:environment => 'PRODUCTION'},
+       #  :library => {:log_level => 'DEBUG'}
+       #
       })
     }.should_not raise_error
   end

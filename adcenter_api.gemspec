@@ -34,7 +34,7 @@ Gem::Specification.new do |s|
   s.files = Dir.glob('{lib,test}/**/*') + %w(rakefile.rb README.md)
 
   s.add_dependency('activesupport', '>= 3.1.0')
-  s.add_dependency('google-ads-common')
+  s.add_dependency('google-ads-common', '~> 0.8.0')
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 2.8'
 end
