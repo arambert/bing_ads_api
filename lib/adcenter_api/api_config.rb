@@ -1,8 +1,6 @@
 # encoding: utf-8
 # Helper methods for loading and managing the available services in the AdCenter API.
 
-require 'ads_common/api_config'
-
 require 'adcenter_api/version'
 
 module AdcenterApi
@@ -10,9 +8,9 @@ module AdcenterApi
   # Contains helper methods for loading and managing the available services.
   module ApiConfig
 
-    # Inherit from AdsCommon::ApiConfig
+    # Inherit from AdsCommonForAdcenter::ApiConfig
     class << ApiConfig
-      include AdsCommon::ApiConfig
+      include AdsCommonForAdcenter::ApiConfig
     end
 
     # Set defaults

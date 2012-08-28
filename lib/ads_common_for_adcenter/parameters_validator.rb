@@ -1,6 +1,5 @@
-require 'ads_common/parameters_validator'
 
-AdsCommon::ParametersValidator.class_eval do
+class AdsCommonForAdcenter::ParametersValidator < AdsCommon::ParametersValidator
 
   # Validates input parameters to:
   # - add parameter names;

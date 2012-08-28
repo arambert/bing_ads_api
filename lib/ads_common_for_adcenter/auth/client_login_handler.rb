@@ -1,11 +1,11 @@
 ####### Overriden for Adcenter #########
 
-AdsCommon::Auth::ClientLoginHandler.class_eval do
+class AdsCommonForAdcenter::Auth::ClientLoginHandler
 
-    ACCOUNT_TYPE = 'GOOGLE'
-    AUTH_PATH = '/accounts/ClientLogin'
-    AUTH_PREFIX = 'GoogleLogin auth='
-    CAPTCHA_PATH = '/accounts/'
+    #ACCOUNT_TYPE = 'GOOGLE'
+    #AUTH_PATH = '/accounts/ClientLogin'
+    #AUTH_PREFIX = 'GoogleLogin auth='
+    #CAPTCHA_PATH = '/accounts/'
 
     # Initializes the ClientLoginHandler with all the necessary details.
     def initialize(config, auth_server, service_name)
@@ -47,20 +47,20 @@ AdsCommon::Auth::ClientLoginHandler.class_eval do
     #   accessed
     #
     # Raises:
-    # - AdsCommon::Errors::AuthError if validation fails
+    # - AdsCommonForAdcenter::Errors::AuthError if validation fails
     #
     def validate_credentials(credentials)
       if credentials.nil?
-        raise AdsCommon::Errors::AuthError, 'No credentials supplied.'
+        raise AdsCommonForAdcenter::Errors::AuthError, 'No credentials supplied.'
       end
 
       if credentials[:auth_token].nil?
         if credentials[:user_name].nil?
-          raise AdsCommon::Errors::AuthError,
+          raise AdsCommonForAdcenter::Errors::AuthError,
               'UserName address not included in credentials.'
         end
         if credentials[:password].nil?
-          raise AdsCommon::Errors::AuthError,
+          raise AdsCommonForAdcenter::Errors::AuthError,
               'Password not included in credentials.'
         end
       else
@@ -82,7 +82,7 @@ AdsCommon::Auth::ClientLoginHandler.class_eval do
     # - The auth token for the account
     #
     # Raises:
-    # - AdsCommon::Errors::AuthError if authentication fails
+    # - AdsCommonForAdcenter::Errors::AuthError if authentication fails
     #
     def create_token(credentials)
       token = credentials.include?(:auth_token) ?
@@ -119,7 +119,7 @@ AdsCommon::Auth::ClientLoginHandler.class_eval do
       data = get_login_data(credentials)
       headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
 
-      response = AdsCommon::Http.post_response(url, data, @config, headers)
+      response = AdsCommonForAdcenter::Http.post_response(url, data, @config, headers)
       results = parse_token_text(response.body)
 
       if response.code == 200 and results.include?('Auth')
@@ -134,7 +134,7 @@ AdsCommon::Auth::ClientLoginHandler.class_eval do
       # Handling for known errors.
       if 'CaptchaRequired'.eql?(results['Error'])
         captcha_url = @server + CAPTCHA_PATH + results['CaptchaUrl']
-        raise AdsCommon::Errors::CaptchaRequiredError.new(results['Error'],
+        raise AdsCommonForAdcenter::Errors::CaptchaRequiredError.new(results['Error'],
             results['CaptchaToken'], captcha_url, results['Url'])
       end
       # For other errors throwing a generic error.
@@ -145,7 +145,7 @@ AdsCommon::Auth::ClientLoginHandler.class_eval do
       if results.include?('Info')
         error_message += " Info: %s." % results['Info']
       end
-      raise AdsCommon::Errors::AuthError.new(error_message, error_str,
+      raise AdsCommonForAdcenter::Errors::AuthError.new(error_message, error_str,
           results['Info'])
     end
 

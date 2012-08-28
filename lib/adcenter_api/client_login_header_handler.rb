@@ -1,8 +1,7 @@
 # Handles SOAP headers and namespaces definition for ClientLogin type header.
-require 'ads_common/savon_headers/base_header_handler'
 
 module AdcenterApi
-  class ClientLoginHeaderHandler < AdsCommon::SavonHeaders::BaseHeaderHandler
+  class ClientLoginHeaderHandler < AdsCommonForAdcenter::SavonHeaders::BaseHeaderHandler
 
     private
 

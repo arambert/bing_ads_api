@@ -1,7 +1,6 @@
 ####### Overriden for Adcenter #########
-
-AdsCommon::ApiConfig.module_eval do
-
+module AdsCommonForAdcenter::ApiConfig
+  include AdsCommon::ApiConfig
   # Get the endpoint for a service on a given environment and API version.
   #
   # Args:

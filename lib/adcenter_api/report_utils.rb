@@ -3,7 +3,6 @@
 require 'cgi'
 require 'gyoku'
 
-require 'ads_common/http'
 require 'adcenter_api/errors'
 require 'adcenter_api/report_header_handler'
 
@@ -83,7 +82,7 @@ module AdcenterApi
           @api.config.read('service.environment'), @version)
       headers = get_report_request_headers(url, cid)
       log_request(url, headers, definition_text)
-      response = AdsCommon::Http.post_response(url, data, @api.config, headers)
+      response = AdsCommonForAdcenter::Http.post_response(url, data, @api.config, headers)
       check_for_errors(response)
       return response
     end

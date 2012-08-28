@@ -1,13 +1,12 @@
 # Specific error handling for the Adcenter API.
 
-require 'ads_common/errors'
 
 module AdcenterApi
   module Errors
 
     # This class encapsulates base class for API exceptions. More specific
     # exceptions are generated based on Service WSDL.
-    class ApiException < AdsCommon::Errors::ApiException
+    class ApiException < AdsCommonForAdcenter::Errors::ApiException
       attr_reader :array_fields
 
       def initialize(exception_fault)
@@ -38,15 +37,15 @@ module AdcenterApi
     end
 
     # Error for invalid credentials sush as malformed ID.
-    class BadCredentialsError < AdsCommon::Errors::ApiException
+    class BadCredentialsError < AdsCommonForAdcenter::Errors::ApiException
     end
 
     # Error for malformed report definition.
-    class InvalidReportDefinitionError < AdsCommon::Errors::ApiException
+    class InvalidReportDefinitionError < AdsCommonForAdcenter::Errors::ApiException
     end
 
     # Error for server-side report error.
-    class ReportError < AdsCommon::Errors::ApiException
+    class ReportError < AdsCommonForAdcenter::Errors::ApiException
       attr_reader :http_code
 
       def initialize(http_code, message)
@@ -557,7 +556,7 @@ module AdcenterApi
     }
     CODES.each do |_, constant|
       unless const_defined?(constant)
-        const_set(constant,Class.new(AdsCommon::Errors::ApiException))
+        const_set(constant,Class.new(AdsCommonForAdcenter::Errors::ApiException))
       end
     end
 

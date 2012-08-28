@@ -1,8 +1,7 @@
-require 'ads_common/credential_handler'
 require 'adcenter_api/api_config'
 
 module AdcenterApi
-  class CredentialHandler < AdsCommon::CredentialHandler
+  class CredentialHandler < AdsCommonForAdcenter::CredentialHandler
     # Whether we're making MCC-level requests.
     attr_accessor :use_mcc
     # Whether we're making validate-only requests.
@@ -51,7 +50,7 @@ module AdcenterApi
     # environment.
     #
     # Raises:
-    # - AdsCommon::Error::EnvironmentMismatchError if sandbox credentials are
+    # - AdsCommonForAdcenter::Error::EnvironmentMismatchError if sandbox credentials are
     # being used for production or vice-versa.
     # - AdcenterApi::Errors:BadCredentialsError if supplied credentials are not
     # valid.
@@ -76,12 +75,12 @@ module AdcenterApi
       #case environment
       #  when :PRODUCTION
       #    if sandbox_token
-      #      raise AdsCommon::Errors::EnvironmentMismatchError,
+      #      raise AdsCommonForAdcenter::Errors::EnvironmentMismatchError,
       #          'Attempting to connect to production with sandbox credentials.'
       #    end
       #  when :SANDBOX
       #    if (!sandbox_token)
-      #      raise AdsCommon::Errors::EnvironmentMismatchError,
+      #      raise AdsCommonForAdcenter::Errors::EnvironmentMismatchError,
       #          'Attempting to connect to the sandbox with malformatted ' +
       #          'credentials. Please check http://msdn.microsoft.com/en-US/library/aa983013 for details.'
       #    end

@@ -1,6 +1,5 @@
-require 'ads_common/build/savon_registry'
 
-AdsCommon::Build::SavonRegistry.class_eval do
+class AdsCommonForAdcenter::Build::SavonRegistry
 
   # Extracts input parameters of given method as an array.
   def extract_input_parameters(op_node, doc)

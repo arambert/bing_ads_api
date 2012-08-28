@@ -31,10 +31,9 @@ lib = File.expand_path('../lib/', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 # GENERATE API SERVICES
-require 'ads_common/build/savon_generator'
 require 'adcenter_api/api_config'
-require 'ads_common/api_config_decorator'
-require 'ads_common/build/savon_registry_decorator'
+require 'ads_common_for_adcenter/api_config'
+require 'ads_common_for_adcenter/build/savon_registry'
 desc 'Generate the Adcenter API stubs.'
 
 task :generate do
@@ -47,7 +46,7 @@ task :generate do
     wsdls = AdcenterApi::ApiConfig.get_wsdls(version)
     wsdls.each do |service_name, wsdl_url|
       logger.info('Processing %s at [%s]...' % [service_name, wsdl_url])
-      generator = AdsCommon::Build::SavonGenerator.new(wsdl_url, code_path, api_config.api_name, version, service_name)
+      generator = AdsCommonForAdcenter::Build::SavonGenerator.new(wsdl_url, code_path, api_config.api_name, version, service_name)
       generator.process_wsdl()
     end
   end

@@ -1,19 +1,18 @@
 require 'savon'
 require 'httpi'
 require 'active_support/inflector'
-require 'ads_common/api'
-#require 'ads_common/savon_headers/oauth_header_handler'
 
+require 'ads_common_for_adcenter'
+require 'ads_common_for_adcenter/api_config'
+require 'ads_common_for_adcenter/parameters_validator'
+require 'ads_common_for_adcenter/auth/client_login_handler'
+require 'ads_common_for_adcenter/savon_service'
+require 'ads_common_for_adcenter/savon_headers_base_header_handler'
 require 'adcenter_api/api_config'
 require 'adcenter_api/client_login_header_handler'
 require 'adcenter_api/credential_handler'
 require 'adcenter_api/errors'
 require 'adcenter_api/report_utils'
-require 'ads_common/api_config_decorator'
-require 'ads_common/parameters_validator_decorator'
-require 'ads_common/auth/client_login_handler_decorator'
-require 'ads_common/savon_service_decorator'
-require 'ads_common/savon_headers_base_header_handler_decorator'
 
 module AdcenterApi
 
@@ -21,7 +20,7 @@ module AdcenterApi
   #
   # Holds all the services, as well as login credentials.
   #
-  class Api < AdsCommon::Api
+  class Api < AdsCommonForAdcenter::Api
 
     # Constructor for API.
     def initialize(provided_config = nil)
@@ -37,7 +36,7 @@ module AdcenterApi
     # Retrieve correct soap_header_handler.
     #
     # Args:
-    # - auth_handler: instance of an AdsCommon::Auth::BaseHandler subclass to
+    # - auth_handler: instance of an AdsCommonForAdcenter::Auth::BaseHandler subclass to
     #   handle authentication
     # - version: intended API version
     # - header_ns: header namespace
@@ -50,7 +49,7 @@ module AdcenterApi
       auth_method = @config.read('authentication.method', :CLIENTLOGIN)
       handler_class = case auth_method
                       when :CLIENTLOGIN then AdcenterApi::ClientLoginHeaderHandler
-                      when :OAUTH, :OAUTH2 then AdsCommon::SavonHeaders::OAuthHeaderHandler
+                      when :OAUTH, :OAUTH2 then AdsCommonForAdcenter::SavonHeaders::OAuthHeaderHandler
                       end
       return handler_class.new(@credential_handler, auth_handler, header_ns, default_ns, version)
     end
@@ -151,7 +150,7 @@ module AdcenterApi
       version = api_config.default_version if version.nil?
       # Check if version exists.
       if !api_config.versions.include?(version)
-        raise AdsCommon::Errors::Error, "Unknown version '%s'" % version
+        raise AdsCommonForAdcenter::Errors::Error, "Unknown version '%s'" % version
       end
       return AdcenterApi::ReportUtils.new(self, version)
     end

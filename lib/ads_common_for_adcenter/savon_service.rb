@@ -1,9 +1,26 @@
 ####### Overriden for Adcenter #########
-require 'ads_common/savon_service'
 
-AdsCommon::SavonService.class_eval do
+class AdsCommonForAdcenter::SavonService < AdsCommon::SavonService
 
   private
+
+  # [CHANGES: 
+  # => ParametersValidator to AdsCommonForAdcenter::ParametersValidator
+  # => ResultsExtractor    to AdsCommon::ResultsExtractor]
+  # Executes SOAP action specified as a string with given arguments.
+    def execute_action(action_name, args, &block)
+      registry = get_service_registry()
+      validator = AdsCommonForAdcenter::ParametersValidator.new(registry)
+      args = validator.validate_args(action_name, args)
+      response = execute_soap_request(
+          action_name.to_sym, args, validator.extra_namespaces)
+      log_headers(response.http.headers)
+      handle_errors(response)
+      extractor = AdsCommon::ResultsExtractor.new(registry)
+      result = extractor.extract_result(response, action_name, &block)
+      run_user_block(extractor, response, result, &block) if block_given?
+      return result
+    end
 
   # Adds namespace to the given string.
   #
@@ -13,13 +30,13 @@ AdsCommon::SavonService.class_eval do
   # Returns:
   #  - String with a namespace
   #
-  def prepend_namespace(str, namespace = AdsCommon::SavonHeaders::BaseHeaderHandler::DEFAULT_NAMESPACE)
+  def prepend_namespace(str, namespace = AdsCommonForAdcenter::SavonHeaders::BaseHeaderHandler::DEFAULT_NAMESPACE)
     return "%s:%s" % [namespace, str]
   end
 
   # Executes the SOAP request with original SOAP name.
   def execute_soap_request(action, args, extra_namespaces)
-    ns = AdsCommon::SavonHeaders::BaseHeaderHandler::DEFAULT_NAMESPACE
+    ns = AdsCommonForAdcenter::SavonHeaders::BaseHeaderHandler::DEFAULT_NAMESPACE
     original_input_name = get_service_registry.get_method_signature(action)[:input][:name].to_s.camelize
     original_action_name = get_service_registry.get_method_signature(action)[:original_name].to_s.camelize
     original_action_name = action if original_action_name.nil?
@@ -59,7 +76,7 @@ AdsCommon::SavonService.class_eval do
       wsdl.endpoint = endpoint
       wsdl.namespace = namespace
       wsdl.element_form_default = :qualified
-      AdsCommon::Http.configure_httpi(@config, httpi)
+      AdsCommonForAdcenter::Http.configure_httpi(@config, httpi)
     end
     client.config.raise_errors = false
     client.config.logger.subject = get_logger()
@@ -107,14 +124,14 @@ AdsCommon::SavonService.class_eval do
         return exception_class.new("#{operation_error[:message]} (#{operation_error[:details]})")
       elsif fault[:faultstring]
         fault_message = fault[:faultstring]
-        return AdsCommon::Errors::ApiException.new(
+        return AdsCommonForAdcenter::Errors::ApiException.new(
             "Unknown exception with error: %s" % fault_message)
       else
         raise ArgumentError.new(fault.to_s)
       end
     rescue Exception => e
       operation_error ||= response[:fault][:detail][:api_fault][:operation_errors][:operation_error] rescue {}
-      return AdsCommon::Errors::ApiException.new(
+      return AdsCommonForAdcenter::Errors::ApiException.new(
           "Failed to resolve exception (%s), details: %s, SOAP fault: %s" %
           [e.message, "#{operation_error[:message]} (#{operation_error[:details]})", response.soap_fault])
     end
