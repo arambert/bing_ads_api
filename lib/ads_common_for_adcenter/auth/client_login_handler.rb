@@ -1,6 +1,6 @@
 ####### Overriden for Adcenter #########
 
-class AdsCommonForAdcenter::Auth::ClientLoginHandler
+AdsCommonForAdcenter::Auth::ClientLoginHandler.class_eval do
 
     #ACCOUNT_TYPE = 'GOOGLE'
     #AUTH_PATH = '/accounts/ClientLogin'
