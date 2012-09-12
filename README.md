@@ -1,18 +1,18 @@
-AdCenter Api Client
+Bing Ads Api Client
 =============
 
 Description
 -------------
-A simple ruby wrapper for the AdCenter API based on the gem "google-ads-common".
+A simple ruby wrapper for the Bing Ads API based on the gem "google-ads-common".
 
 Usage
 -------------
 
     # install in your gem file
-    gem 'adcenter_api', :git => 'https://github.com/weboglobin/adcenter_api.git'
+    gem 'bing_ads_api', :git => 'https://github.com/weboglobin/bing_ads_api.git'
 
     # initialize the client
-    client = AdcenterApi::Api.new(
+    client = BingAdsApi::Api.new(
             {
               :authentication => {
                 :method => 'ClientLogin',
