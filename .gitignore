@@ -3,3 +3,4 @@ bing_ads_api.yml
 /*.0.1.gem
 /*.0.2.gem
 /*.0.*.gem
+/test.rb
