@@ -51,8 +51,20 @@ class AdsCommonForBingAds::SavonService < AdsCommon::SavonService
       set_headers(soap, extra_namespaces)
       soap.header.merge!(additional_headers) if additional_headers.is_a?(Hash)
     end
+    # response = @client.request(original_action_name) do |soap, wsdl, http|
+    #     soap.body = args
+    #     header_handler.prepare_request(http, soap)
+    #     soap.namespaces.merge!(extra_namespaces) unless extra_namespaces.nil?
+    #   end
     return response
   end
+  #has been removed in ads commmon
+  # Executes each handler to generate SOAP headers.
+  def set_headers(soap, extra_namespaces)
+    header_handler.prepare_request(@client.http, soap)
+    soap.namespaces.merge!(extra_namespaces) unless extra_namespaces.nil?
+  end
+
   def prepend_namespace_to_hash h, namespace
     if h.is_a?(Hash)
       h.dup.each do |k,v|
