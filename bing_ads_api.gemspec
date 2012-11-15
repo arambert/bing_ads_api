@@ -35,6 +35,8 @@ Gem::Specification.new do |s|
 
   s.add_dependency('activesupport', '>= 3.1.0')
   s.add_dependency('google-ads-common', '~> 0.8.0')
+  # s.add_dependency('httpi', '1.1.0')# problem with httpi 1.1.0 or savon 1.2.0
+  s.add_dependency('savon', '~>1.0.0')# problem with httpi 1.1.0 or savon 1.2.0
   s.add_development_dependency 'rake'
   s.add_development_dependency 'rspec', '~> 2.8'
 end
