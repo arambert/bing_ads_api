@@ -9,7 +9,7 @@ Usage
 -------------
 
     # install in your gem file
-    gem 'bing_ads_api', :git => 'https://github.com/weboglobin/bing_ads_api.git'
+    gem 'bing_ads_api', :git => 'https://github.com/arambert/bing_ads_api.git'
 
     # initialize the client
     client = BingAdsApi::Api.new(

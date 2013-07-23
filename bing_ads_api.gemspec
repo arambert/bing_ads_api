@@ -2,7 +2,7 @@
 #
 # Authors:: Adrien Rambert
 #
-# Copyright:: Copyright 2012, Weboglobin
+# Copyright:: Copyright 2012, Adrien Rambert
 #
 # License:: Licensed under the Apache License, Version 2.0 (the "License");
 #           you may not use this file except in compliance with the License.
@@ -27,9 +27,9 @@ Gem::Specification.new do |s|
   s.version = BingAdsApi::ApiConfig::CLIENT_LIB_VERSION
   s.summary = 'Ruby wrapper for Bing Ads API'
   s.description = 'Ruby wrapper for Bing Ads API'
-  s.homepage = 'https://github.com/weboglobin/bing_ads_api'
+  s.homepage = 'https://github.com/arambert/bing_ads_api'
   s.authors = ['Adrien Rambert']
-  s.email = ['arambert@optimeez.com']
+  s.email = ['adrien@rambert.me']
   s.require_path = 'lib'
   s.files = Dir.glob('{lib,test}/**/*') + %w(rakefile.rb README.md)
 
