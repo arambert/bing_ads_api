@@ -8,7 +8,7 @@ require 'ads_common/parameters_validator'
 require 'ads_common/build/savon_generator'
 require 'ads_common/build/savon_registry'
 require 'ads_common/savon_headers/base_header_handler'
-require 'ads_common/savon_headers/oauth2_header_handler'
+require 'ads_common/savon_headers/oauth2_handler'
 
 ####### AdsCommon Overriden for Bing Ads #########
 module AdsCommonForBingAds
