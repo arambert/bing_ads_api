@@ -28,7 +28,6 @@ module AdsCommonForBingAds
 		class BaseHandler < AdsCommon::Auth::BaseHandler; end
 		class ClientLoginHandler < AdsCommon::Auth::ClientLoginHandler; end
 		class OAuth2Handler < AdsCommon::Auth::OAuth2Handler; end
-		class OAuthHandler < AdsCommon::Auth::OAuthHandler; end
 	end
 	# Build
 	module Build
