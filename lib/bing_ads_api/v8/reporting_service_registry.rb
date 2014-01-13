@@ -12,8 +12,8 @@ require 'bing_ads_api/errors'
 module BingAdsApi; module V8; module ReportingService
   class ReportingServiceRegistry
     REPORTINGSERVICE_METHODS = {:submit_generate_report=>{:input=>{:name=>"submit_generate_report_request", :fields=>[]}, :output=>{:name=>"submit_generate_report_response", :fields=>[]}, :original_name=>"SubmitGenerateReport"}, :poll_generate_report=>{:input=>{:name=>"poll_generate_report_request", :fields=>[]}, :output=>{:name=>"poll_generate_report_response", :fields=>[]}, :original_name=>"PollGenerateReport"}}
-    REPORTINGSERVICE_TYPES = {}
-    REPORTINGSERVICE_NAMESPACES = []
+    REPORTINGSERVICE_TYPES = { :AccountThroughAdGroupReportScope => { :ns => 0 } }
+    REPORTINGSERVICE_NAMESPACES = [ 'http://schemas.microsoft.com/2003/10/Serialization/Arrays' ]
 
     def self.get_method_signature(method_name)
       return REPORTINGSERVICE_METHODS[method_name.to_sym]
