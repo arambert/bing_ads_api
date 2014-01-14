@@ -9,7 +9,6 @@ require 'ads_common/build/savon_generator'
 require 'ads_common/build/savon_registry'
 require 'ads_common/savon_headers/base_header_handler'
 require 'ads_common/savon_headers/oauth_header_handler'
-require 'ads_common/savon_headers/httpi_request_proxy'
 
 ####### AdsCommon Overriden for Bing Ads #########
 module AdsCommonForBingAds
@@ -29,7 +28,6 @@ module AdsCommonForBingAds
 		class BaseHandler < AdsCommon::Auth::BaseHandler; end
 		class ClientLoginHandler < AdsCommon::Auth::ClientLoginHandler; end
 		class OAuth2Handler < AdsCommon::Auth::OAuth2Handler; end
-		class OAuthHandler < AdsCommon::Auth::OAuthHandler; end
 	end
 	# Build
 	module Build
