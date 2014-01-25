@@ -26,5 +26,8 @@ module BingAdsApi; module V8; module CampaignManagementService
     def self.get_namespace(index)
       return CAMPAIGNMANAGEMENTSERVICE_NAMESPACES[index]
     end
+
+    def self.all_namespaces; CAMPAIGNMANAGEMENTSERVICE_NAMESPACES end
+
   end
 end; end; end

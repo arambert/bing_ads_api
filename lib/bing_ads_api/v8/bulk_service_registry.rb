@@ -26,5 +26,7 @@ module BingAdsApi; module V8; module BulkService
     def self.get_namespace(index)
       return BULKSERVICE_NAMESPACES[index]
     end
+
+    def self.all_namespaces; BULKSERVICE_NAMESPACES end
   end
 end; end; end

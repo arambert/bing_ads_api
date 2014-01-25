@@ -26,5 +26,7 @@ module BingAdsApi; module V8; module ReportingService
     def self.get_namespace(index)
       return REPORTINGSERVICE_NAMESPACES[index]
     end
+
+    def self.all_namespaces; REPORTINGSERVICE_NAMESPACES end
   end
 end; end; end

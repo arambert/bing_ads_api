@@ -9,7 +9,8 @@ AdsCommonForBingAds::ParametersValidator.class_eval do
     in_params = @registry.get_method_signature(action_name)[:input] # Hash like {:name=>"get_accounts_info_request", :fields=>[]}
 
     ## XXX: HACK.  Just add all possible namespaces
-    (0..@registry::REPORTINGSERVICE_NAMESPACES.count-1).each do |idx|
+    all_namespaces = @registry.all_namespaces
+    (0..all_namespaces.count-1).each do |idx|
       add_extra_namespace(idx)
     end
 
