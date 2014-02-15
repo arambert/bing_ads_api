@@ -377,6 +377,10 @@ module BingAdsApi; module V8; module CampaignManagementService
       return execute_action('delete_ads', args, &block)
     end
 
+    def set_destination_url_to_keywords(*args, &block)
+      return execute_action('set_destination_url_to_keywords', args, &block)
+    end
+
     private
 
     def get_service_registry()
