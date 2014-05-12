@@ -26,14 +26,14 @@ Usage
               :library => {:log_level => 'DEBUG'}
             })
 
-    # select the service and the API version (:v7 or :v8)
-    administration_service = client.service(:AdministrationService, :v7)
+    # select the service and the API version (:v8 or :v9)
+    administration_service = client.service(:AdministrationService, :v9)
 
     # send your request
     result = administration_service.get_assigned_quota()
 
     # select another service
-    campaign_service = client.service(:CampaignManagementService, :v7)
+    campaign_service = client.service(:CampaignManagementService, :v9)
 
     # send another request
     result = campaign_service.get_campaigns_by_account_id({:account_id => 00000})
