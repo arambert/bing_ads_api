@@ -25,6 +25,23 @@ Usage
               :service => {:environment => 'PRODUCTION'},
               :library => {:log_level => 'DEBUG'}
             })
+            
+    oauth2_client = BingAdsApi::Api.new(
+            {
+              :authentication => {
+                :method => 'OAUTH2',
+                :developer_token => Developer Token,
+                :oauth2_client_id: Client Id From Bing,
+                :oauth2_client_secret: Secret Client From Bing,
+                :oauth2_callback: http://myservice.com/adcenter_oauth2, #public callback
+                :oauth2_token => {
+                    :access_token => Access Token,
+                    :refresh_token => Refresh Token
+                }
+              },
+              :service => {:environment => 'PRODUCTION'},
+              :library => {:log_level => 'DEBUG'}
+            })     
 
     # select the service and the API version (:v8 or :v9)
     administration_service = client.service(:AdministrationService, :v9)
