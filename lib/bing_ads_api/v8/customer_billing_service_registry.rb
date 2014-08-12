@@ -26,5 +26,7 @@ module BingAdsApi; module V8; module CustomerBillingService
     def self.get_namespace(index)
       return CUSTOMERBILLINGSERVICE_NAMESPACES[index]
     end
+
+    def self.all_namespaces; CUSTOMERBILLINGSERVICE_NAMESPACES end
   end
 end; end; end

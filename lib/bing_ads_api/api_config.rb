@@ -67,15 +67,15 @@ module BingAdsApi
 
     @@address_config = {
       :v8 => {
-        :AdIntelligenceService     => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/CampaignManagement/AdIntelligenceService.svc?wsdl", :SANDBOX => ""},
+        :AdIntelligenceService     => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/CampaignManagement/AdIntelligenceService.svc?wsdl", :SANDBOX => "https://api.sandbox.bingads.microsoft.com/Api/Advertiser/v8/CampaignManagement/AdIntelligenceService.svc?wsdl"},
         :AdministrationService     => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/Administration/AdministrationService.svc?wsdl",     :SANDBOX => ""},
-        :BulkService               => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/CampaignManagement/BulkService.svc?wsdl",           :SANDBOX => ""},
+        :BulkService               => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/CampaignManagement/BulkService.svc?wsdl",           :SANDBOX => "https://api.sandbox.bingads.microsoft.com/Api/Advertiser/v8/CampaignManagement/BulkService.svc?wsdl"},
         :CampaignManagementService => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/CampaignManagement/CampaignManagementService.svc?wsdl", :SANDBOX => "https://api.sandbox.bingads.microsoft.com/Api/Advertiser/v8/CampaignManagement/CampaignManagementService.svc?wsdl"},
         :CustomerBillingService    => {:PRODUCTION => "https://sharedservices.adcenterapi.microsoft.com/Api/Billing/v8/CustomerBillingService.svc?wsdl",       :SANDBOX => ""},
         :CustomerManagementService => {:PRODUCTION => "https://sharedservices.adcenterapi.microsoft.com/Api/CustomerManagement/v8/CustomerManagementService.svc?wsdl", :SANDBOX => "https://sharedservices.api.sandbox.bingads.microsoft.com/Api/CustomerManagement/v8/CustomerManagementService.svc?wsdl"},
         :NotificationService       => {:PRODUCTION => "https://sharedservices.adcenterapi.microsoft.com/Api/Notification/v8/NotificationService.svc?wsdl",     :SANDBOX => ""},
-        :OptimizerService          => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/Optimizer/OptimizerService.svc?wsdl",               :SANDBOX => ""},
-        :ReportingService          => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/Reporting/ReportingService.svc?wsdl",               :SANDBOX => ""}
+        :OptimizerService          => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/Optimizer/OptimizerService.svc?wsdl",               :SANDBOX => "https://api.sandbox.bingads.microsoft.com/Api/Advertiser/v8/Optimizer/OptimizerService.svc?wsdl"},
+        :ReportingService          => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v8/Reporting/ReportingService.svc?wsdl",               :SANDBOX => "https://api.sandbox.bingads.microsoft.com/Api/Advertiser/v8/Reporting/ReportingService.svc?wsdl"}
       },
       :v7 => {
         :AdministrationService     => {:PRODUCTION => "https://adcenterapi.microsoft.com/Api/Advertiser/v7/Administration/AdministrationService.svc?wsdl",           :SANDBOX => "https://sandboxapi.adcenter.microsoft.com/Api/Advertiser/v7/Administration/AdministrationService.svc?wsdl"},

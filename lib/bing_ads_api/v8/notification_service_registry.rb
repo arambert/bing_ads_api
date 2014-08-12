@@ -26,5 +26,7 @@ module BingAdsApi; module V8; module NotificationService
     def self.get_namespace(index)
       return NOTIFICATIONSERVICE_NAMESPACES[index]
     end
+
+    def self.all_namespaces; NOTIFICATIONSERVICE_NAMESPACES end
   end
 end; end; end

@@ -26,5 +26,8 @@ module BingAdsApi; module V8; module OptimizerService
     def self.get_namespace(index)
       return OPTIMIZERSERVICE_NAMESPACES[index]
     end
+
+    def self.all_namespaces; OPTIMIZERSERVICE_NAMESPACES end
+
   end
 end; end; end
