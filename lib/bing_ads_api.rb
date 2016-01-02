@@ -6,10 +6,12 @@ require 'ads_common_for_bing_ads'
 require 'ads_common_for_bing_ads/api_config'
 require 'ads_common_for_bing_ads/parameters_validator'
 require 'ads_common_for_bing_ads/auth/client_login_handler'
+require 'ads_common_for_bing_ads/auth/oauth2_handler'
 require 'ads_common_for_bing_ads/savon_service'
-require 'ads_common_for_bing_ads/savon_headers_base_header_handler'
+require 'ads_common_for_bing_ads/savon_headers/base_header_handler'
+require 'ads_common_for_bing_ads/savon_headers/client_login_header_handler'
+require 'ads_common_for_bing_ads/savon_headers/oauth_header_handler'
 require 'bing_ads_api/api_config'
-require 'bing_ads_api/client_login_header_handler'
 require 'bing_ads_api/credential_handler'
 require 'bing_ads_api/errors'
 require 'bing_ads_api/report_utils'
@@ -33,6 +35,44 @@ module BingAdsApi
       BingAdsApi::ApiConfig
     end
 
+    # Auxiliary method to create an authentication handler.
+    #
+    # Returns:
+    # - auth handler
+    #
+    def create_auth_handler
+      auth_method = @config.read('authentication.method', :OAUTH2)
+      return case auth_method
+               when :CLIENTLOGIN
+                 @logger.warn("ClientLogin authentication method is now deprecated")
+                 AdsCommonForBingAds::Auth::ClientLoginHandler.new(
+                     @config,
+                     api_config.client_login_config(:AUTH_SERVER),
+                     api_config.client_login_config(:LOGIN_SERVICE_NAME)
+                 )
+               when :OAUTH
+                 raise AdsCommon::Errors::Error,
+                       'OAuth authorization method is deprecated, use OAuth2 instead.'
+               when :OAUTH2
+                 environment = @config.read('service.environment',
+                                            api_config.default_environment())
+                 AdsCommonForBingAds::Auth::OAuth2Handler.new(
+                     @config,
+                     api_config.environment_config(environment, :oauth_scope)
+                 )
+               when :OAUTH2_JWT
+                 environment = @config.read('service.environment',
+                                            api_config.default_environment())
+                 AdsCommon::Auth::OAuth2JwtHandler.new(
+                     @config,
+                     api_config.environment_config(environment, :oauth_scope)
+                 )
+               else
+                 raise AdsCommon::Errors::Error,
+                       "Unknown authentication method '%s'" % auth_method
+             end
+    end
+
     # Retrieve correct soap_header_handler.
     #
     # Args:
@@ -48,8 +88,8 @@ module BingAdsApi
     def soap_header_handler(auth_handler, version, header_ns, default_ns)
       auth_method = @config.read('authentication.method', :CLIENTLOGIN)
       handler_class = case auth_method
-                      when :CLIENTLOGIN then BingAdsApi::ClientLoginHeaderHandler
-                      when :OAUTH, :OAUTH2 then AdsCommonForBingAds::SavonHeaders::OAuthHeaderHandler
+                        when :CLIENTLOGIN then AdsCommonForBingAds::SavonHeaders::ClientLoginHeaderHandler
+                        when :OAUTH,:OAUTH2 then AdsCommonForBingAds::SavonHeaders::OAuthHeaderHandler
                       end
       return handler_class.new(@credential_handler, auth_handler, header_ns, default_ns, version)
     end
@@ -68,8 +108,8 @@ module BingAdsApi
     #
     def use_mcc(&block)
       return (block_given?) ?
-        run_with_temporary_flag(:@use_mcc, true, block) :
-        @credential_handler.use_mcc
+          run_with_temporary_flag(:@use_mcc, true, block) :
+          @credential_handler.use_mcc
     end
 
     # Helper method to provide a simple way of doing an MCC-level operation
@@ -97,8 +137,8 @@ module BingAdsApi
     #
     def validate_only(&block)
       return (block_given?) ?
-        run_with_temporary_flag(:@validate_only, true, block) :
-        @credential_handler.validate_only
+          run_with_temporary_flag(:@validate_only, true, block) :
+          @credential_handler.validate_only
     end
 
     # Helper method to provide a simple way of performing validate-only
@@ -126,8 +166,8 @@ module BingAdsApi
     #
     def partial_failure(&block)
       return (block_given?) ?
-        run_with_temporary_flag(:@partial_failure, true, block) :
-        @credential_handler.partial_failure
+          run_with_temporary_flag(:@partial_failure, true, block) :
+          @credential_handler.partial_failure
     end
 
     # Helper method to provide a simple way of performing requests with support

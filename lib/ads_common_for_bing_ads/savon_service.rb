@@ -45,25 +45,15 @@ class AdsCommonForBingAds::SavonService < AdsCommon::SavonService
     prepend_namespace_to_hash(args, ns)
     prepend_namespace_to_hash(additional_headers, ns)
     puts "**************************************args = #{args}"
-    response = @client.request(ns, original_input_name) do |soap|
-      @client.http.headers["SOAPAction"] = original_action_name
+    response = @client.request(ns, original_input_name) do |soap, wsdl, http|
+      http.headers["SOAPAction"] = %{"#{original_action_name}"}
       soap.body = args
-      set_headers(soap, extra_namespaces)
-      soap.header.merge!(additional_headers) if additional_headers.is_a?(Hash)
+      header_handler.prepare_request(http, soap)
+      soap.namespaces.merge!(extra_namespaces) unless extra_namespaces.nil?
     end
-    # response = @client.request(original_action_name) do |soap, wsdl, http|
-    #     soap.body = args
-    #     header_handler.prepare_request(http, soap)
-    #     soap.namespaces.merge!(extra_namespaces) unless extra_namespaces.nil?
-    #   end
     return response
   end
-  #has been removed in ads commmon
-  # Executes each handler to generate SOAP headers.
-  def set_headers(soap, extra_namespaces)
-    header_handler.prepare_request(@client.http, soap)
-    soap.namespaces.merge!(extra_namespaces) unless extra_namespaces.nil?
-  end
+  
 
   def prepend_namespace_to_hash h, namespace
     if h.is_a?(Hash)
