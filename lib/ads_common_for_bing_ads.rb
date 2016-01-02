@@ -9,6 +9,7 @@ require 'ads_common/build/savon_generator'
 require 'ads_common/build/savon_registry'
 require 'ads_common/savon_headers/base_header_handler'
 require 'ads_common/savon_headers/oauth_header_handler'
+require 'ads_common/auth/client_login_handler.rb'
 
 ####### AdsCommon Overriden for Bing Ads #########
 module AdsCommonForBingAds
