@@ -62,7 +62,7 @@ class AdsCommonForBingAds::SavonService < AdsCommon::SavonService
         if k.to_s=~/!$/ || k.to_s=~/:/ #on ne transforme pas les noms finissant par ! ou contenant : (exemple: attributes! ou xsi:type)
           h[k] = prepend_namespace_to_hash(v, namespace)
         else
-          h[k.to_s=~ /^#{namespace}:/ ? k : prepend_namespace(k.to_s.camelize, namespace)] = prepend_namespace_to_hash(v, namespace)
+          h[k.to_s=~ /^#{namespace}:/ ? k : prepend_namespace((k.class == Symbol ? k.to_s.camelize : k.to_s), namespace)] = prepend_namespace_to_hash(v, namespace)
         end
       end
     elsif h.is_a?(Array) # e.g: h = {:campaigns => {:campaign => [{:name => 'foo'}, {:name => 'foofoo'}]}}
